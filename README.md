@@ -2,10 +2,8 @@
 
 
 <p align="center">
-  <a href="http://arxiv.org/abs/2507.15512" alt="Paper"><img src="https://img.shields.io/badge/Paper-Hybrid_TTS-purple?logo=arxiv&logoColor=white
-  "/></a>
-  <a href="https://github.com/openreasoner/openr/tree/critic_mcts" alt="Framework"><img src="https://img.shields.io/badge/Framework-OpenR-orange?logo=reasonstudios&logoColor=white
-  "/></a>
+  <a href="http://arxiv.org/abs/2507.15512" alt="Paper"><img src="https://img.shields.io/badge/Paper-Hybrid_TTS-purple?logo=arxiv&logoColor=white"/></a>
+  <a href="https://github.com/openreasoner/openr/tree/critic_mcts" alt="Framework"><img src="https://img.shields.io/badge/Framework-OpenR-orange?logo=reasonstudios&logoColor=white"/></a>
   <a href="https://github.com/NiuTrans" alt="NiuTrans"><img src="https://img.shields.io/badge/NiuTrans-blue"/></a>
 
 </p>
