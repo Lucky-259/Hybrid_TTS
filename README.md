@@ -1,13 +1,11 @@
 # Step-level Verifier-guided Hybrid Test-Time Scaling for Large Language Models
 
-
 <p align="center">
   <a href="http://arxiv.org/abs/2507.15512" alt="Paper"><img src="https://img.shields.io/badge/Paper-Hybrid_TTS-purple?logo=arxiv&logoColor=white"/></a>
   <a href="https://github.com/openreasoner/openr/tree/critic_mcts" alt="Framework"><img src="https://img.shields.io/badge/Framework-OpenR-orange?logo=reasonstudios&logoColor=white"/></a>
   <a href="https://github.com/NiuTrans" alt="NiuTrans"><img src="https://img.shields.io/badge/NiuTrans-blue"/></a>
 
 </p>
-
 
 <div align="center">
 <p align="center" dir="auto">
@@ -68,7 +66,7 @@ CUDA_VISIBLE_DEVICES=0 vllm serve /path/.../Qwen2.5-Math-PRM-7B --task reward --
 ```
 Launch the LLM service:
 ```bash
-CUDA_VISIBLE_DEVICES=1 vllm serve /path/.../Qwen2.5-14B-Instruct --host 127.0.0.1 --port 8012
+CUDA_VISIBLE_DEVICES=1 vllm serve /path/.../Qwen2.5-3B-Instruct --host 127.0.0.1 --port 8012
 ```
 
 ### Prompt Switching
@@ -83,6 +81,18 @@ The scale of the Hybrid TTS process can be controlled by adjusting the following
     - The process stops if the PRM score exceeds a threshold: `$prm_threshold_values`.
     - The process stops if the PRM score improvement over `$refine_cut_num_values` consecutive rounds is less than `$prm_gap_values`.
 
+The experimental setup in our paper is as follows:
+
+| Experimental Setup    | `num_sample_values` | `num_sequence_values` | `num_refine_values` | `prm_threshold_values` | `refine_cut_num_values` | `prm_gap_values` |
+| -------------------------------- |:----:|:----:|:----:|:----:|:----:|:----:|
+| Hybrid Test-Time Scaling| 4/8/16 | 4/8/16 | 5 | 0.9 | 2 | 0.2 |
+| BoN+Self-Refinement     | 4/8/16 | 1 | 5 | 0.9 | 2 | 0.2 |
+| MCTS+BoN                | 4/8/16 | 4/8/16 | 0 | 0.0 | 0 | 0.0 |
+
+For detailed implementation of OpenR, please refer to the `solution` branch.
+The **RM\@k** metric reported in the paper corresponds to the `prm_min_max` in the experiment logs.
+
+⚠ **Note**: As discussed in the *Limitations* section and *Appendix E* of our paper, fluctuations in experimental results are expected. We recommend multiple inference runs to obtain a more stable evaluation.
 
 ### Inference
 ```bash
@@ -94,14 +104,11 @@ bash reason/evaluation/eval.sh
 # 🔗 Citation
 If you find our paper useful for your research, please kindly cite our paper: 
 ```
-@misc{chang2025steplevelverifierguidedhybridtesttime,
-      title={Step-level Verifier-guided Hybrid Test-Time Scaling for Large Language Models}, 
-      author={Kaiyan Chang and Yonghao Shi and Chenglong Wang and Hang Zhou and Chi Hu and Xiaoqian Liu and Yingfeng Luo and Yuan Ge and Tong Xiao and Jingbo Zhu},
-      year={2025},
-      eprint={2507.15512},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2507.15512}, 
+@article{chang2025step,
+  title={Step-level Verifier-guided Hybrid Test-Time Scaling for Large Language Models},
+  author={Chang, Kaiyan and Shi, Yonghao and Wang, Chenglong and Zhou, Hang and Hu, Chi and Liu, Xiaoqian and Luo, Yingfeng and Ge, Yuan and Xiao, Tong and Zhu, Jingbo},
+  journal={arXiv preprint arXiv:2507.15512},
+  year={2025}
 }
 ```
 For questions or suggestions, please contact: changkaiyan_neu@outlook.com
