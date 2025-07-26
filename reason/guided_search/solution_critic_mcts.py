@@ -56,19 +56,16 @@ class CriticSearchTree(SearchTree):
             review_traj = []
             rewrite_traj = []
             prm_traj = [] 
-            dept = 1
-            path_tokens = 0
-            refine_info_list=[]
+            dept=1
             while not done:
-                parent = node
-                if node.visit_count > 0: # root.visit_count=0
+                if node.visit_count > 0: 
                     action, node = self._select_child(node, env_copy)
                 else:
-                    if select_by_prior: # False
+                    if select_by_prior: 
                         action, node = self._select_by_prior(node, env_copy)
                     else:
                         action, node = self._select_child(node, env_copy)
-                
+                dept +=1
                 env_copy._next_state_terminated = {}
                 assert node.last_action == action
                 env_copy._next_state_terminated[action] = node.terminated
@@ -76,21 +73,15 @@ class CriticSearchTree(SearchTree):
                 review_traj.append(node.from_review)
                 rewrite_traj.append(node.last_action)
                 prm_traj.append(node.prm_value)
-                step_rewrite_list, step_prm_list, refine_tokens, rewrite_text, _, terminated, truncated, info = env_copy.step(
-                    action,node._initial_value,reward_model_fn, update_legal_action=node.is_leaf()
+                _, _, terminated, truncated, info = env_copy.step(
+                    action, update_legal_action=node.is_leaf()
                 )
-                parent.children[rewrite_text] = parent.children.pop(action)
-                
-                refine_info_list.append(step_rewrite_list)
-                refine_info_list.append(step_prm_list)
 
-                node.rewrite_action(rewrite_text,refine_tokens) 
-                path_tokens += node.return_tokens()
                 done = terminated or truncated
+
                 if not done and node.is_leaf():
                     self._expand_leaf_node(node, env_copy, reward_model_fn)
                 api_call_completion_tokens += info["api_completion_token"]
-                dept +=1
             else:
                 if node.visit_count > 0:
                     leaf_value = node.value
@@ -100,24 +91,22 @@ class CriticSearchTree(SearchTree):
                     else:
                         leaf_value = reward_model_fn(env_copy.get_state()).item()
             node.update_recursive(leaf_value, env_copy.mcts_mode)
-            print(f"'final answer' : {env_copy.get_lastaction_str()+rewrite_text}")
+
             traj_data = {
                 "path_idx": i_path,
-                #"text": action,
-                "text": env_copy.get_lastaction_str()+rewrite_text,       # final answer
-                "path_tokens": path_tokens,
+                "text": env_copy.full_answer,       # final answer
                 "value": leaf_value,
+                "path_tokens" : 0,
                 "api_completion_tokens": api_call_completion_tokens,
                 "tree_completion_tokens": self._completion_tokens,
                 "review_path": review_traj,
                 "rewrite_path": rewrite_traj,
                 "stepprm_path": prm_traj,
-                "refine_info_list": refine_info_list
+                "refine_info_list":[]
             }
 
             traj_list.append(traj_data)
 
-            # reset api_call_completion_tokens
             api_call_completion_tokens = 0
 
         return traj_list
@@ -152,24 +141,21 @@ class CriticSearchTree(SearchTree):
         else:
             leaf_value = node._initial_value 
             assert len(simulate_env.legal_actions) > 0
-            last_str = simulate_env.get_allaction_str()
-            i_try=0
             
+            prms = reward_fn(
+                [
+                    (
+                        simulate_env.question,
+                        simulate_env.answer + x["action"],
+                    )
+                    for x in simulate_env.legal_actions
+                ]
+            )
 
-            prms = []
-            for x in simulate_env.legal_actions:
-                reward = reward_fn([
-                    (simulate_env.question + last_str, simulate_env.answer + x["action"])
-                ])
-                prms.extend(reward)
-            
-            
             child_values = []
 
-            # get the last reward
             last_r = [i[-1] for i in prms]
 
-            # PRM get last r as single reward
             for act, rs in zip(simulate_env.legal_actions, last_r):
                     # prm-last
                     child_values.append(rs)
@@ -186,7 +172,6 @@ class CriticSearchTree(SearchTree):
             if self._init_critic_value:
                 child_value = child_values[i]
             else:
-
                 child_value = 0.0
 
             node.children[action] = CriticLanguageNode(
@@ -199,8 +184,6 @@ class CriticSearchTree(SearchTree):
                 num_generated_token=action_dict["num_token"],
                 from_review=action_dict['from_review']
             )
-            # set terminal node here
-
             if simulate_env._next_state_terminated[action]:
                 node.children[action].set_as_terminate_node()
         if len(node.children) == 0:
@@ -208,7 +191,6 @@ class CriticSearchTree(SearchTree):
                 "Prune all current children at node {}".format(node.last_action)
             )
 
-        # collect tokens
         if not node.has_collected_token_num:
             self._completion_tokens += sum(
                 c.num_generated_token for c in node.children.values()

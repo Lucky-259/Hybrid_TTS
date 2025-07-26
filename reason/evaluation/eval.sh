@@ -1,22 +1,21 @@
 #!/bin/bash 
-# main_results
+# openr
 num_sample_values=(4 8 16)
 num_sequence_values=(4 8 16)
 num_refine_values=(5 5 5)
 
-prm_threshold_values=(0.9 0.9 0.9)
-refine_cut_num_values=(2 2 2)
-prm_gap_values=(0.2 0.2 0.2)
+prm_threshold_values=(0.0 0.0 0.0)
+refine_cut_num_values=(0 0 0)
+prm_gap_values=(0.0 0.0 0.0)
 
-
-dataname="AIME24" #AIME24 MATH500 GPQA
+dataname="MATH500" #AIME24 MATH500 GPQA
 modelname="Qwen2.5-3B-Instruct" #Llama-3.1-8B-Instruct Qwen2.5-7B-Instruct gemma-3-4b-it
-save_dir="results/${modelname}/${dataname}"
+save_dir="results-solution/${modelname}/${dataname}"
 
-LM="/path/.../${modelname}"
-RM="/path/.../Qwen2.5-Math-PRM-7B"
+LM=/path/.../Qwen2.5-3B-Instruct
+RM=/path/.../Qwen2.5-Math-PRM-7B
 task_name="critic_MATH"
-rewrite_from="critic"
+rewrite_from="critic" #critic prm
 max_new_tokens=2048
 tree_max_width=4
 tree_max_depth=4
@@ -47,7 +46,7 @@ for i in "${!num_sample_values[@]}"; do
     --tree_max_depth $tree_max_depth \
     --save_dir $save_dir \
     --method $method \
-    > "/path/.../${save_dir}/${modelname}_${dataname}_${rewrite_from}_sample${num_sample}_seq${num_sequence}_refine${num_refine}_prm${prm_threshold}_@${refine_cut_num}gap${prm_gap}.log" 2>&1
+    > "/path/.../Hybrid_TTS/${save_dir}/${modelname}_${dataname}_${rewrite_from}_sample${num_sample}_seq${num_sequence}_refine${num_refine}_prm${prm_threshold}_@${refine_cut_num}gap${prm_gap}.log" 2>&1
 
     sleep 10
 done

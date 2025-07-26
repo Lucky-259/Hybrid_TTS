@@ -5,7 +5,8 @@ from reason.inference.lm_call import LMCallingConfig, LanguageModelCallingFuncti
 from reason.inference.rm_call import RewardModelCallingFunction
 from reason.evaluation.evaluator import SolutionOutput, Task, TreeSearchSolutionOutput
 from reason.guided_search.tree import SearchTree
-from reason.guided_search.step_critic_mcts import CriticSearchTree
+# from reason.guided_search.step_critic_mcts import CriticSearchTree
+from reason.guided_search.solution_critic_mcts import CriticSearchTree
 
 @dataclass
 class BasicConfig:

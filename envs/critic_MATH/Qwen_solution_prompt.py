@@ -1,16 +1,16 @@
 # Common
 COT_TASK_DESC = """<|im_start|>system\nPlease reason step by step, and put your final answer within \\\\boxed{{}}.<|im_end|>"""
 
-# GPQA 
+# GPQA #
 # COT_TASK_DESC = """<|im_start|>system\nPlease reason step by step, and put your final answer within \\\\boxed{{$LETTER}}(without quotes) where LETTER is one of ABCD.<|im_end|>"""
 
-# step-level 
-CRITIQUE_TASK_DESC = "<|im_start|>system\nThere is a weak reasoning step in the solution, please provide a strict reflection to correct only this one step with less than 150 tokens. Don't output the complete solution.<|im_end|>" 
+# solution-level #
+CRITIQUE_TASK_DESC = "<|im_start|>system\nThere is a weak solution, please provide a strict relection to correct it.<|im_end|>" 
 
 # Common
 REWRITE_TASK_DESC = "<|im_start|>system\nPlease refine the weak answer according to your Reflection. Not allowed to use code to solve the question. Please reason step by step, and put your final answer within \\boxed{{}}.<|im_end|>"
 
-# GPQA 
+# GPQA #
 # REWRITE_TASK_DESC = "<|im_start|>system\nPlease refine the weak answer according to your Reflection. Not allowed to use code to solve the question. Please reason step by step, and put your final answer within \\boxed{{$LETTER}}(without quotes) where LETTER is one of ABCD.<|im_end|>"
 
 

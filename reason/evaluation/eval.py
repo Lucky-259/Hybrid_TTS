@@ -255,7 +255,7 @@ if __name__ == "__main__":
             num_path=config.num_sequence,
         )
         solver_fn = partial(critic_mcts, method_config, gen_config)
-        print("Step-level TTS START")
+        print("mcts start")
 
     else:
         raise ValueError(f"Unknown method: {config.method}")
