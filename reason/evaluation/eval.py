@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional
 from config_utils import str2bool
 from reason.inference.lm_call import LMCallingConfig, VLLMRemoteCaller
 from reason.inference.rm_call import (
@@ -9,22 +9,18 @@ from reason.inference.rm_call import (
     RewardModelBaseConfig,
     RemoteRewardModelConfig,
 )
-from reason.evaluation.evaluator import SolutionOutput, Task, RemoteMathEvaluator, MathEvaluator
+from reason.evaluation.evaluator import Task, MathEvaluator
 import torch
 from functools import partial
 import json
 import jsonlines
-import time
 import numpy as np
 from tqdm import tqdm
 from argparse import ArgumentParser
 import os
 import random
-from multiprocessing import Pool
 import tree
-from ray.util.actor_pool import ActorPool
 from reason.evaluation.methods import *
-import ray
 
 def setup_seed(seed):
     torch.manual_seed(seed)

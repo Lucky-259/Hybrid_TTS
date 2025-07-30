@@ -47,7 +47,7 @@ for i in "${!num_sample_values[@]}"; do
     --tree_max_depth $tree_max_depth \
     --save_dir $save_dir \
     --method $method \
-    > "/path/.../${save_dir}/${modelname}_${dataname}_${rewrite_from}_sample${num_sample}_seq${num_sequence}_refine${num_refine}_prm${prm_threshold}_@${refine_cut_num}gap${prm_gap}.log" 2>&1
+    > "/path/.../Hybrid_TTS/${save_dir}/${modelname}_${dataname}_${rewrite_from}_sample${num_sample}_seq${num_sequence}_refine${num_refine}_prm${prm_threshold}_@${refine_cut_num}gap${prm_gap}.log" 2>&1
 
     sleep 10
 done

@@ -1,12 +1,6 @@
-import torch
 from typing import Union, List
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import re
-import numpy as np
 import requests
 import torch.nn.functional as F
-import json
-from openai import OpenAI
 
 # Qwen2.5-PRM online
 def _value_inference(
@@ -31,7 +25,7 @@ def _value_inference(
         response = requests.post(api_url, headers=headers, json=prompt)
         return response
 
-    api_url = f"http://localhost:8011/pooling" #"http://localhost:8012/v1"
+    api_url = f"http://localhost:8011/pooling"
     step_reward = []
     for input in input_str:
         question_answer_pair = input.split("\n\n\n\n")
@@ -100,6 +94,5 @@ def _value_inference(
 #             step_reward.append(scores[input_id == step_tag_id].tolist())
 
 #         # print(step_reward)  # [[1.0, 0.1904296875, 0.9765625, 1.0]]
-#         # import pdb
-#         # pdb.set_trace()
+
 #     return step_reward

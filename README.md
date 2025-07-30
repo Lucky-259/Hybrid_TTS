@@ -69,8 +69,8 @@ Launch the LLM service:
 CUDA_VISIBLE_DEVICES=1 vllm serve /path/.../Qwen2.5-3B-Instruct --host 127.0.0.1 --port 8012
 ```
 
-### Prompt Switching
-To run inference on the GPQA dataset, please modify the `COT_TASK_DESC` and `REWRITE_TASK_DESC` from "Common Prompts" to the "GPQA prompts" as needed in the `Hybrid_TTS/envs/critic_MATH/*_prompt.py` files.
+### 📌 Switching Prompts
+To run inference on the **GPQA** dataset, please modify the `COT_TASK_DESC` and `REWRITE_TASK_DESC` from "Common Prompts" to the "GPQA prompts" as needed in the `Hybrid_TTS/envs/critic_MATH/*_prompt.py` files.
 
 ### Scripts
 The scale of the Hybrid TTS process can be controlled by adjusting the following parameters in the `Hybrid_TTS/reason/evaluation/eval.sh` files:

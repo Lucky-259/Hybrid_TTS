@@ -1,11 +1,9 @@
 from dataclasses import dataclass
-from typing import List, Optional, Tuple, Union
+from typing import List, Tuple, Union
 from reason.inference.value import _value_inference
 import sys
 sys.modules["deepspeed"] = None
-from transformers import AutoModel, AutoTokenizer, AutoModelForCausalLM
-import torch
-
+from transformers import AutoTokenizer
 
 @dataclass
 class RewardModelBaseConfig:

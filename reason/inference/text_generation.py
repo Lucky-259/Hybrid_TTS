@@ -1,7 +1,5 @@
-from typing import List, Optional
-import requests
+from typing import List
 from dataclasses import dataclass
-from vllm import LLM, SamplingParams
 from openai import OpenAI
 
 
