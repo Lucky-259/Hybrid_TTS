@@ -104,10 +104,11 @@ bash reason/evaluation/eval.sh
 # 🔗 Citation
 If you find our paper useful for your research, please kindly cite our paper: 
 ```
-@article{chang2025step,
-  title={Step-level Verifier-guided Hybrid Test-Time Scaling for Large Language Models},
+@inproceedings{chang2025step,
+  title={Step-level verifier-guided hybrid test-time scaling for large language models},
   author={Chang, Kaiyan and Shi, Yonghao and Wang, Chenglong and Zhou, Hang and Hu, Chi and Liu, Xiaoqian and Luo, Yingfeng and Ge, Yuan and Xiao, Tong and Zhu, Jingbo},
-  journal={arXiv preprint arXiv:2507.15512},
+  booktitle={Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing},
+  pages={18473--18488},
   year={2025}
 }
 ```
